@@ -86,13 +86,15 @@ local function get_signal_value(pump)
   return 0
 end
 
-local function rescan_all()
-  for _, s in pairs(game.surfaces) do
-    for _, e in pairs(s.find_entities_filtered { type = "pump" }) do
-      if is_flippable(e) then register(e) end
-    end
-  end
-end
+------------
+-- Commands
+------------
+
+commands.add_command("fp-debug", "Toggle debug", function()
+  ensure_storage()
+  storage.debug = not storage.debug
+  dbg("Debug " .. (storage.debug and "ON" or "OFF"))
+end)
 
 ------------
 -- Events
@@ -159,9 +161,29 @@ script.on_event(defines.events.on_player_rotated_entity, function(event)
   ensure_base_overlay(pump)
 end)
 
-commands.add_command("fp-debug", "Toggle debug", function()
+script.on_event(defines.events.on_entity_settings_pasted, function(event)
+  local src = event.source
+  local dst = event.destination
+
+  if not is_flippable(src) then
+    return
+  end
+  if not is_flippable(dst) then
+    return
+  end
+
   ensure_storage()
-  storage.debug = not storage.debug
-  dbg("Debug " .. (storage.debug and "ON" or "OFF"))
+
+  local src_pump = storage.pumps[src.unit_number]
+  if not src_pump then
+    src_pump = register(src)
+  end
+  local dst_pump = storage.pumps[dst.unit_number]
+  if not dst_pump then
+    dst_pump = register(dst)
+  end
+
+  dst_pump.signal = src_pump.signal
+  dst_pump.base_dir = src_pump.base_dir
 end)
 
