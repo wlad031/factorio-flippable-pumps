@@ -1,0 +1,18 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "Snacks",
+        "defines",
+        "script",
+        "game",
+        "rendering",
+        "commands",
+        "log",
+        "storage",
+        "data",
+        "mods"
+    ],
+    "diagnostics.disable": [
+        "lowercase-global"
+    ]
+}

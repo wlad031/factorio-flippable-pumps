@@ -1,0 +1,13 @@
+{
+  "name": "FlippablePumps",
+  "version": "0.1.0",
+  "title": "Flippable Pumps",
+  "author": "chatgpt",
+  "description": "Adds pumps that can flip direction based on a circuit signal, with a UI to choose the signal.",
+  "factorio_version": "2.0",
+  "dependencies": [
+    "base >= 2.0",
+    "quality >= 2.0.0"
+  ]
+}
+
